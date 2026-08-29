@@ -1,61 +1,141 @@
-#include<iostream>
+#include <iostream>
+#include <vector>
+#include <string>
 using namespace std;
-string arr1[20],arr2[20],arr3[20],arr4[20],arr5[20];
-int total=0;
-void enter()
+
+class Student
+{
+private:
+    string name;
+    string rollNo;
+    string course;
+    string studentClass;
+    string contact;
+
+public:
+
+    Student(string name, string rollNo, string course,
+            string studentClass, string contact)
+    {
+        this->name = name;
+        this->rollNo = rollNo;
+        this->course = course;
+        this->studentClass = studentClass;
+        this->contact = contact;
+    }
+
+    string getRollNo()
+    {
+        return rollNo;
+    }
+
+    void display()
+    {
+        cout << "\nName    : " << name << endl;
+        cout << "Roll No : " << rollNo << endl;
+        cout << "Course  : " << course << endl;
+        cout << "Class   : " << studentClass << endl;
+        cout << "Contact : " << contact << endl;
+    }
+
+    void update()
+    {
+        cout << "\nEnter New Details\n";
+
+        cout << "Name: ";
+        cin >> name;
+
+        cout << "Roll No: ";
+        cin >> rollNo;
+
+        cout << "Course: ";
+        cin >> course;
+
+        cout << "Class: ";
+        cin >> studentClass;
+
+        cout << "Contact: ";
+        cin >> contact;
+
+        cout << "\nRecord Updated Successfully!" << endl;
+    }
+};
+
+
+vector<Student> students;
+
+
+void enterData()
 {
     int choice;
-    cout<<"How many students do you want to enter: ";
-    cin>>choice;
 
-    for(int i=0;i<choice;i++)
+    cout << "\nHow many students do you want to enter: ";
+    cin >> choice;
+
+    if (choice <= 0)
     {
-        cout<<"\nEnter data of student "<<i+1<<endl;
+        cout << "\nInvalid number of students!" << endl;
+        return;
+    }
 
-        cout<<"Name: ";
-        cin>>arr1[total];
+    for (int i = 0; i < choice; i++)
+    {
+        string name;
+        string rollNo;
+        string course;
+        string studentClass;
+        string contact;
 
-        cout<<"Roll No: ";
-        cin>>arr2[total];
+        cout << "\nEnter data of student " << i + 1 << endl;
 
-        cout<<"Course: ";
-        cin>>arr3[total];
+        cout << "Name: ";
+        cin >> name;
 
-        cout<<"Class: ";
-        cin>>arr4[total];
+        cout << "Roll No: ";
+        cin >> rollNo;
 
-        cout<<"Contact: ";
-        cin>>arr5[total];
+        cout << "Course: ";
+        cin >> course;
 
-        total++;
+        cout << "Class: ";
+        cin >> studentClass;
+
+        cout << "Contact: ";
+        cin >> contact;
+
+        students.push_back(
+            Student(name, rollNo, course, studentClass, contact)
+        );
+
+        cout << "\nStudent Added Successfully!" << endl;
     }
 }
-void show()
+
+
+void showData()
 {
-    if(total == 0)
+    if (students.empty())
     {
         cout << "\nNo record found!" << endl;
+        return;
     }
-    else
-    {
-        cout << "\n=========== Student Records ===========\n";
 
-        for(int i = 0; i < total; i++)
-        {
-            cout << "\nData of Student " << i + 1 << endl;
-            cout << "Name    : " << arr1[i] << endl;
-            cout << "Roll No : " << arr2[i] << endl;
-            cout << "Course  : " << arr3[i] << endl;
-            cout << "Class   : " << arr4[i] << endl;
-            cout << "Contact : " << arr5[i] << endl;
-            cout << "--------------------------------------" << endl;
-        }
+    cout << "\n=========== Student Records ===========\n";
+
+    for (int i = 0; i < students.size(); i++)
+    {
+        cout << "\nData of Student " << i + 1 << endl;
+
+        students[i].display();
+
+        cout << "--------------------------------------" << endl;
     }
 }
 
-	void search()
+
+void searchData()
 {
-    if(total == 0)
+    if (students.empty())
     {
         cout << "\nNo record found!" << endl;
         return;
@@ -64,34 +144,32 @@ void show()
     string roll;
     bool found = false;
 
-    cout << "Enter Roll Number to search: ";
+    cout << "\nEnter Roll Number to search: ";
     cin >> roll;
 
-    for(int i = 0; i < total; i++)
+    for (int i = 0; i < students.size(); i++)
     {
-        if(arr2[i] == roll)
+        if (students[i].getRollNo() == roll)
         {
-            found = true;
-
             cout << "\nStudent Record Found\n";
-            cout << "Name    : " << arr1[i] << endl;
-            cout << "Roll No : " << arr2[i] << endl;
-            cout << "Course  : " << arr3[i] << endl;
-            cout << "Class   : " << arr4[i] << endl;
-            cout << "Contact : " << arr5[i] << endl;
 
+            students[i].display();
+
+            found = true;
             break;
         }
     }
 
-    if(found == false)
+    if (!found)
     {
         cout << "\nRecord not found!" << endl;
     }
 }
-void update()
+
+
+void updateData()
 {
-    if(total == 0)
+    if (students.empty())
     {
         cout << "\nNo record found!" << endl;
         return;
@@ -100,45 +178,30 @@ void update()
     string roll;
     bool found = false;
 
-    cout << "Enter Roll Number of student to update: ";
+    cout << "\nEnter Roll Number of student to update: ";
     cin >> roll;
 
-    for(int i = 0; i < total; i++)
+    for (int i = 0; i < students.size(); i++)
     {
-        if(arr2[i] == roll)
+        if (students[i].getRollNo() == roll)
         {
+            students[i].update();
+
             found = true;
-
-            cout << "\nEnter New Details\n";
-
-            cout << "Name: ";
-            cin >> arr1[i];
-
-            cout << "Roll No: ";
-            cin >> arr2[i];
-
-            cout << "Course: ";
-            cin >> arr3[i];
-
-            cout << "Class: ";
-            cin >> arr4[i];
-
-            cout << "Contact: ";
-            cin >> arr5[i];
-
-            cout << "\nRecord Updated Successfully!" << endl;
             break;
         }
     }
 
-    if(found == false)
+    if (!found)
     {
         cout << "\nRecord not found!" << endl;
     }
 }
-void deleterecord()
+
+
+void deleteData()
 {
-    if(total == 0)
+    if (students.empty())
     {
         cout << "\nNo record found!" << endl;
         return;
@@ -147,65 +210,77 @@ void deleterecord()
     string roll;
     bool found = false;
 
-    cout << "Enter Roll Number of student to delete: ";
+    cout << "\nEnter Roll Number of student to delete: ";
     cin >> roll;
 
-    for(int i = 0; i < total; i++)
+    for (int i = 0; i < students.size(); i++)
     {
-        if(arr2[i] == roll)
+        if (students[i].getRollNo() == roll)
         {
-            found = true;
-
-            // Shift all records one position to the left
-            for(int j = i; j < total - 1; j++)
-            {
-                arr1[j] = arr1[j + 1];
-                arr2[j] = arr2[j + 1];
-                arr3[j] = arr3[j + 1];
-                arr4[j] = arr4[j + 1];
-                arr5[j] = arr5[j + 1];
-            }
-
-            total--;
+            students.erase(students.begin() + i);
 
             cout << "\nRecord Deleted Successfully!" << endl;
+
+            found = true;
             break;
         }
     }
 
-    if(found == false)
+    if (!found)
     {
         cout << "\nRecord not found!" << endl;
     }
 }
-main(){
-	int value;
-	while(true){
-	
-	cout<<"Press 1 to enter data"<<endl;
-	cout<<"Press 2 to show data"<<endl;
-	cout<<"Press 3 to search data"<<endl;
-	cout<<"Press 4 to update data"<<endl;
-	cout<<"Press 5 to delete data"<<endl;
-	cout<<"Press 6 to exit"<<endl;
-	cin>>value;
-	switch(value){
-		case 1:
-			enter();
-			break;
-		case 2:
-			show();
-			break;
-		case 3:
-			search();
-			break;
-		case 4:
-			update();
-			break;
-		case 5:
-			deleterecord();
-			break;
-	}
-}
 
+
+int main()
+{
+    int value;
+
+    while (true)
+    {
+        cout << "\n========== STUDENT MANAGEMENT SYSTEM ==========\n";
+
+        cout << "1. Enter Student Data" << endl;
+        cout << "2. Show Student Data" << endl;
+        cout << "3. Search Student" << endl;
+        cout << "4. Update Student" << endl;
+        cout << "5. Delete Student" << endl;
+        cout << "6. Exit" << endl;
+
+        cout << "\nEnter your choice: ";
+        cin >> value;
+
+        switch (value)
+        {
+            case 1:
+                enterData();
+                break;
+
+            case 2:
+                showData();
+                break;
+
+            case 3:
+                searchData();
+                break;
+
+            case 4:
+                updateData();
+                break;
+
+            case 5:
+                deleteData();
+                break;
+
+            case 6:
+                cout << "\nThank you for using Student Management System!" << endl;
+                return 0;
+
+            default:
+                cout << "\nInvalid choice! Please try again." << endl;
+        }
+    }
+
+    return 0;
 }
